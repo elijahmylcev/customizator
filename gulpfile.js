@@ -9,7 +9,7 @@ const cleanCSS = require("gulp-clean-css");
 const postcss = require("gulp-postcss");
 
 const dist = "./dist/";
-const prod = "./build/";
+const prod = "./docs/";
 
 gulp.task("copy-html", () => {
     return gulp.src("./src/index.html")

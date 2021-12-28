@@ -1152,10 +1152,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./src/js/customizator.js":
-/*!********************************!*\
-  !*** ./src/js/customizator.js ***!
-  \********************************/
+/***/ "./src/js/customization.js":
+/*!*********************************!*\
+  !*** ./src/js/customization.js ***!
+  \*********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1183,8 +1183,17 @@ function () {
     key: "render",
     value: function render() {
       this.btnBlock = document.createElement('div');
+      this.colorPicker = document.createElement('input');
       var scaleInputS = document.createElement('input');
       var scaleInputM = document.createElement('input');
+      var panel = document.createElement('div');
+      panel.append(this.btnBlock, this.colorPicker);
+      scaleInputS.classList.add('scale_btn');
+      scaleInputM.classList.add('scale_btn');
+      this.btnBlock.classList.add('scale');
+      this.btnBlock.append(scaleInputS, scaleInputM);
+      panel.classList.add('panel');
+      document.querySelector('body').append(panel);
       console.log(this.btnBlock, scaleInputS, scaleInputM);
     }
   }]);
@@ -1200,14 +1209,15 @@ function () {
 /*!************************!*\
   !*** ./src/js/main.js ***!
   \************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _require = __webpack_require__(/*! ./customizator */ "./src/js/customizator.js"),
-    Customization = _require["default"];
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _customization__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./customization */ "./src/js/customization.js");
 
 window.addEventListener('DOMContentLoaded', function () {
-  var panel = new Customization();
+  var panel = new _customization__WEBPACK_IMPORTED_MODULE_0__["default"]();
   panel.render();
 });
 

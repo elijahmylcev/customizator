@@ -1,4 +1,4 @@
-const { default: Customization } = require('./customizator');
+import Customization from './customization';
 
 window.addEventListener('DOMContentLoaded', () => {
 	const panel = new Customization();

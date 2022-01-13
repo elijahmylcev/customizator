@@ -4,6 +4,7 @@ export default class Customization {
 		this.colorPicker = document.createElement('input');
 
 		this.btnBlock.addEventListener('click', e => this.onScaleChange(e));
+		this.colorPicker.addEventListener('input', e => this.onColorChange(e));
 	}
 
 	onScaleChange(e) {
@@ -19,8 +20,15 @@ export default class Customization {
 					node.nodeName === '#text' &&
 					node.nodeValue.replace(/\s+/g, '').length > 0
 				) {
-					let value = window.getComputedStyle(node.parentNode, null).fontSize;
-					console.log(value);
+					if (!node.parentNode.getAttribute('data-fz')) {
+						let value = window.getComputedStyle(node.parentNode, null).fontSize;
+						node.parentNode.setAttribute('data-fz', +value.replace(/px/g, ''));
+						node.parentNode.style.fontSize =
+							node.parentNode.getAttribute('data-fz') * scale + 'px';
+					} else {
+						node.parentNode.style.fontSize =
+							node.parentNode.getAttribute('data-fz') * scale + 'px';
+					}
 				} else {
 					recurse(node);
 				}
@@ -28,6 +36,12 @@ export default class Customization {
 		}
 
 		recurse(body);
+	}
+
+	onColorChange(e) {
+		const body = document.querySelector('body');
+		body.style.backgroundColor = e.target.value;
+		console.log(e.target.value);
 	}
 
 	render() {

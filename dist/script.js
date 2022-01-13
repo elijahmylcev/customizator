@@ -2045,6 +2045,9 @@ function () {
     this.btnBlock.addEventListener('click', function (e) {
       return _this.onScaleChange(e);
     });
+    this.colorPicker.addEventListener('input', function (e) {
+      return _this.onColorChange(e);
+    });
   }
 
   _createClass(Customization, [{
@@ -2060,8 +2063,13 @@ function () {
       function recurse(element) {
         element.childNodes.forEach(function (node) {
           if (node.nodeName === '#text' && node.nodeValue.replace(/\s+/g, '').length > 0) {
-            var value = window.getComputedStyle(node.parentNode, null).fontSize;
-            console.log(value);
+            if (!node.parentNode.getAttribute('data-fz')) {
+              var value = window.getComputedStyle(node.parentNode, null).fontSize;
+              node.parentNode.setAttribute('data-fz', +value.replace(/px/g, ''));
+              node.parentNode.style.fontSize = node.parentNode.getAttribute('data-fz') * scale + 'px';
+            } else {
+              node.parentNode.style.fontSize = node.parentNode.getAttribute('data-fz') * scale + 'px';
+            }
           } else {
             recurse(node);
           }
@@ -2069,6 +2077,13 @@ function () {
       }
 
       recurse(body);
+    }
+  }, {
+    key: "onColorChange",
+    value: function onColorChange(e) {
+      var body = document.querySelector('body');
+      body.style.backgroundColor = e.target.value;
+      console.log(e.target.value);
     }
   }, {
     key: "render",

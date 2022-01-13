@@ -2042,7 +2042,8 @@ function () {
 
     this.btnBlock = document.createElement('div');
     this.colorPicker = document.createElement('input');
-    this.scale = localStorage.getItem('scale');
+    this.scale = localStorage.getItem('scale') || 1;
+    this.color = localStorage.getItem('color') || '#ffffff';
     this.btnBlock.addEventListener('click', function (e) {
       return _this.onScaleChange(e);
     });
@@ -2084,7 +2085,14 @@ function () {
     value: function onColorChange(e) {
       var body = document.querySelector('body');
       body.style.backgroundColor = e.target.value;
-      console.log(e.target.value);
+      localStorage.setItem('color', e.target.value);
+    }
+  }, {
+    key: "setBgColor",
+    value: function setBgColor() {
+      var body = document.querySelector('body');
+      body.style.backgroundColor = this.color;
+      this.colorPicker.value = this.color;
     }
   }, {
     key: "injectStyle",
@@ -2097,6 +2105,7 @@ function () {
     key: "render",
     value: function render() {
       this.injectStyle();
+      this.setBgColor();
       var scaleInputS = document.createElement('input');
       var scaleInputM = document.createElement('input');
       var panel = document.createElement('div');

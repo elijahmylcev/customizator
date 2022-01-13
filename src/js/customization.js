@@ -2,7 +2,8 @@ export default class Customization {
 	constructor() {
 		this.btnBlock = document.createElement('div');
 		this.colorPicker = document.createElement('input');
-		this.scale = localStorage.getItem('scale');
+		this.scale = localStorage.getItem('scale') || 1;
+		this.color = localStorage.getItem('color') || '#ffffff';
 
 		this.btnBlock.addEventListener('click', e => this.onScaleChange(e));
 		this.colorPicker.addEventListener('input', e => this.onColorChange(e));
@@ -42,7 +43,13 @@ export default class Customization {
 	onColorChange(e) {
 		const body = document.querySelector('body');
 		body.style.backgroundColor = e.target.value;
-		console.log(e.target.value);
+		localStorage.setItem('color', e.target.value);
+	}
+
+	setBgColor() {
+		const body = document.querySelector('body');
+		body.style.backgroundColor = this.color;
+		this.colorPicker.value = this.color;
 	}
 
 	injectStyle() {
@@ -90,6 +97,7 @@ export default class Customization {
 
 	render() {
 		this.injectStyle();
+		this.setBgColor();
 
 		let scaleInputS = document.createElement('input');
 		let scaleInputM = document.createElement('input');

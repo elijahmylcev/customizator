@@ -2055,30 +2055,32 @@ function () {
   _createClass(Customization, [{
     key: "onScaleChange",
     value: function onScaleChange(e) {
-      var scale;
+      var _this2 = this;
+
       var body = document.querySelector('body');
 
-      if (e.target.value) {
-        scale = +e.target.value.replace(/x/g, '');
+      if (e) {
+        this.scale = +e.target.value.replace(/x/g, '');
       }
 
-      function recurse(element) {
+      var recurse = function recurse(element) {
         element.childNodes.forEach(function (node) {
           if (node.nodeName === '#text' && node.nodeValue.replace(/\s+/g, '').length > 0) {
             if (!node.parentNode.getAttribute('data-fz')) {
               var value = window.getComputedStyle(node.parentNode, null).fontSize;
               node.parentNode.setAttribute('data-fz', +value.replace(/px/g, ''));
-              node.parentNode.style.fontSize = node.parentNode.getAttribute('data-fz') * scale + 'px';
+              node.parentNode.style.fontSize = node.parentNode.getAttribute('data-fz') * _this2.scale + 'px';
             } else {
-              node.parentNode.style.fontSize = node.parentNode.getAttribute('data-fz') * scale + 'px';
+              node.parentNode.style.fontSize = node.parentNode.getAttribute('data-fz') * _this2.scale + 'px';
             }
           } else {
             recurse(node);
           }
         });
-      }
+      };
 
       recurse(body);
+      localStorage.setItem('scale', this.scale);
     }
   }, {
     key: "onColorChange",
@@ -2106,6 +2108,7 @@ function () {
     value: function render() {
       this.injectStyle();
       this.setBgColor();
+      this.onScaleChange();
       var scaleInputS = document.createElement('input');
       var scaleInputM = document.createElement('input');
       var panel = document.createElement('div');

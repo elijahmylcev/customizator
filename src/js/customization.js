@@ -10,13 +10,12 @@ export default class Customization {
 	}
 
 	onScaleChange(e) {
-		let scale;
 		const body = document.querySelector('body');
-		if (e.target.value) {
-			scale = +e.target.value.replace(/x/g, '');
+		if (e) {
+			this.scale = +e.target.value.replace(/x/g, '');
 		}
 
-		function recurse(element) {
+		const recurse = element => {
 			element.childNodes.forEach(node => {
 				if (
 					node.nodeName === '#text' &&
@@ -26,18 +25,20 @@ export default class Customization {
 						let value = window.getComputedStyle(node.parentNode, null).fontSize;
 						node.parentNode.setAttribute('data-fz', +value.replace(/px/g, ''));
 						node.parentNode.style.fontSize =
-							node.parentNode.getAttribute('data-fz') * scale + 'px';
+							node.parentNode.getAttribute('data-fz') * this.scale + 'px';
 					} else {
 						node.parentNode.style.fontSize =
-							node.parentNode.getAttribute('data-fz') * scale + 'px';
+							node.parentNode.getAttribute('data-fz') * this.scale + 'px';
 					}
 				} else {
 					recurse(node);
 				}
 			});
-		}
+		};
 
 		recurse(body);
+
+		localStorage.setItem('scale', this.scale);
 	}
 
 	onColorChange(e) {
@@ -98,6 +99,7 @@ export default class Customization {
 	render() {
 		this.injectStyle();
 		this.setBgColor();
+		this.onScaleChange();
 
 		let scaleInputS = document.createElement('input');
 		let scaleInputM = document.createElement('input');

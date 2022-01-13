@@ -2059,12 +2059,12 @@ function () {
 
       function recurse(element) {
         element.childNodes.forEach(function (node) {
-          if (node.nodeName === '$text' && node.nodeValue.replace(/\s+/g, '').length > 0) {
+          if (node.nodeName === '#text' && node.nodeValue.replace(/\s+/g, '').length > 0) {
             var value = window.getComputedStyle(node.parentNode, null).fontSize;
             console.log(value);
+          } else {
+            recurse(node);
           }
-
-          recurse(node);
         });
       }
 

@@ -16,14 +16,14 @@ export default class Customization {
 		function recurse(element) {
 			element.childNodes.forEach(node => {
 				if (
-					node.nodeName === '$text' &&
+					node.nodeName === '#text' &&
 					node.nodeValue.replace(/\s+/g, '').length > 0
 				) {
 					let value = window.getComputedStyle(node.parentNode, null).fontSize;
 					console.log(value);
+				} else {
+					recurse(node);
 				}
-
-				recurse(node);
 			});
 		}
 

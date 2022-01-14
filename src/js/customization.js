@@ -2,11 +2,13 @@ export default class Customization {
 	constructor() {
 		this.btnBlock = document.createElement('div');
 		this.colorPicker = document.createElement('input');
+		this.clear = document.createElement('div');
 		this.scale = localStorage.getItem('scale') || 1;
 		this.color = localStorage.getItem('color') || '#ffffff';
 
 		this.btnBlock.addEventListener('click', e => this.onScaleChange(e));
 		this.colorPicker.addEventListener('input', e => this.onColorChange(e));
+		this.clear.addEventListener('click', () => this.reset());
 	}
 
 	onScaleChange(e) {
@@ -92,8 +94,21 @@ export default class Customization {
 					width: 40px;
 					height: 40px;
 			}
+
+			.clear {
+				font-size: 20px;
+				cursor: pointer;
+			}
 		`;
 		document.querySelector('head').appendChild(style);
+	}
+
+	reset() {
+		localStorage.clear();
+		this.scale = 1;
+		this.color = '#ffffff';
+		this.setBgColor();
+		this.onScaleChange();
 	}
 
 	render() {
@@ -105,8 +120,9 @@ export default class Customization {
 		let scaleInputM = document.createElement('input');
 		let panel = document.createElement('div');
 
-		panel.append(this.btnBlock, this.colorPicker);
-
+		panel.append(this.btnBlock, this.colorPicker, this.clear);
+		this.clear.innerHTML = '&times';
+		this.clear.classList.add('clear');
 		scaleInputS.classList.add('scale_btn');
 		scaleInputM.classList.add('scale_btn');
 		this.btnBlock.classList.add('scale');

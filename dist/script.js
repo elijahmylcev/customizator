@@ -2042,6 +2042,7 @@ function () {
 
     this.btnBlock = document.createElement('div');
     this.colorPicker = document.createElement('input');
+    this.clear = document.createElement('div');
     this.scale = localStorage.getItem('scale') || 1;
     this.color = localStorage.getItem('color') || '#ffffff';
     this.btnBlock.addEventListener('click', function (e) {
@@ -2049,6 +2050,9 @@ function () {
     });
     this.colorPicker.addEventListener('input', function (e) {
       return _this.onColorChange(e);
+    });
+    this.clear.addEventListener('click', function () {
+      return _this.reset();
     });
   }
 
@@ -2100,8 +2104,17 @@ function () {
     key: "injectStyle",
     value: function injectStyle() {
       var style = document.createElement('style');
-      style.innerHTML = "\n\t\t\t.panel {\n\t\t\t\tdisplay: flex;\n\t\t\t\tjustify-content: space-around;\n\t\t\t\talign-items: center;\n\t\t\t\tposition: fixed;\n\t\t\t\ttop: 10px;\n\t\t\t\tright: 0;\n\t\t\t\tborder: 1px solid rgba(0,0,0, .2);\n\t\t\t\tbox-shadow: 0 0 20px rgba(0,0,0, .5);\n\t\t\t\twidth: 300px;\n\t\t\t\theight: 60px;\n\t\t\t\tbackground-color: #fff;\n\t\t\n\t\t\t}\n\t\t\t\n\t\t\t.scale {\n\t\t\t\t\tdisplay: flex;\n\t\t\t\t\tjustify-content: space-around;\n\t\t\t\t\talign-items: center;\n\t\t\t\t\twidth: 100px;\n\t\t\t\t\theight: 40px;\n\t\t\t}\n\n\t\t\t.scale_btn {\n\t\t\t\tdisplay: block;\n\t\t\t\twidth: 40px;\n\t\t\t\theight: 40px;\n\t\t\t\tborder: 1px solid rgba(0,0,0, .2);\n\t\t\t\tborder-radius: 4px;\n\t\t\t\tfont-size: 18px;\n\t\t\t}\n\t\t\t\n\t\t\t.color {\n\t\t\t\t\twidth: 40px;\n\t\t\t\t\theight: 40px;\n\t\t\t}\n\t\t";
+      style.innerHTML = "\n\t\t\t.panel {\n\t\t\t\tdisplay: flex;\n\t\t\t\tjustify-content: space-around;\n\t\t\t\talign-items: center;\n\t\t\t\tposition: fixed;\n\t\t\t\ttop: 10px;\n\t\t\t\tright: 0;\n\t\t\t\tborder: 1px solid rgba(0,0,0, .2);\n\t\t\t\tbox-shadow: 0 0 20px rgba(0,0,0, .5);\n\t\t\t\twidth: 300px;\n\t\t\t\theight: 60px;\n\t\t\t\tbackground-color: #fff;\n\t\t\n\t\t\t}\n\t\t\t\n\t\t\t.scale {\n\t\t\t\t\tdisplay: flex;\n\t\t\t\t\tjustify-content: space-around;\n\t\t\t\t\talign-items: center;\n\t\t\t\t\twidth: 100px;\n\t\t\t\t\theight: 40px;\n\t\t\t}\n\n\t\t\t.scale_btn {\n\t\t\t\tdisplay: block;\n\t\t\t\twidth: 40px;\n\t\t\t\theight: 40px;\n\t\t\t\tborder: 1px solid rgba(0,0,0, .2);\n\t\t\t\tborder-radius: 4px;\n\t\t\t\tfont-size: 18px;\n\t\t\t}\n\t\t\t\n\t\t\t.color {\n\t\t\t\t\twidth: 40px;\n\t\t\t\t\theight: 40px;\n\t\t\t}\n\n\t\t\t.clear {\n\t\t\t\tfont-size: 20px;\n\t\t\t\tcursor: pointer;\n\t\t\t}\n\t\t";
       document.querySelector('head').appendChild(style);
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      localStorage.clear();
+      this.scale = 1;
+      this.color = '#ffffff';
+      this.setBgColor();
+      this.onScaleChange();
     }
   }, {
     key: "render",
@@ -2112,7 +2125,9 @@ function () {
       var scaleInputS = document.createElement('input');
       var scaleInputM = document.createElement('input');
       var panel = document.createElement('div');
-      panel.append(this.btnBlock, this.colorPicker);
+      panel.append(this.btnBlock, this.colorPicker, this.clear);
+      this.clear.innerHTML = '&times';
+      this.clear.classList.add('clear');
       scaleInputS.classList.add('scale_btn');
       scaleInputM.classList.add('scale_btn');
       this.btnBlock.classList.add('scale');
